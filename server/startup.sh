@@ -2,6 +2,10 @@
 
 set -xe
 
+export RUBYOPT="-KU -E utf-8:utf-8"
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+
 if [ ! -f database-ready ]; then
     rake db:setup
 

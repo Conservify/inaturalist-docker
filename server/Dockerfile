@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 RUN apt-get update \
-	&& apt-get install -y git ruby ruby-dev build-essential zlib1g zlib1g-dev libpq-dev wget curl tzdata postgresql-client libgeos-dev libgeos++-dev libproj-dev \
+	&& apt-get install -y git ruby ruby-dev build-essential zlib1g zlib1g-dev libpq-dev wget curl tzdata postgresql-client libgeos-dev libgeos++-dev libproj-dev locales \
 	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -26,6 +26,10 @@ RUN gem install tzinfo-data
 RUN bundle
 RUN npm install
 RUN node_modules/.bin/gulp webpack
+
+RUN dpkg-reconfigure locales -f noninteractive && \
+    locale-gen en_US.UTF-8 && \
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
 COPY database.yml config
 COPY config.yml config

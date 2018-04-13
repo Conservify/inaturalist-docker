@@ -1,0 +1,12 @@
+#+TITLE:  README for inaturalist-docker
+#+EMAIL:  jacob@conservify.org 
+ 
+* Developer Instructions 
+
+The idea is that you just need to do:
+
+~docker-compose up~
+
+Though you may need to do this more than once :)
+
+* EOF

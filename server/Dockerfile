@@ -28,6 +28,7 @@ RUN npm install
 RUN node_modules/.bin/gulp webpack
 
 COPY database.yml config
+COPY config.yml config
 
 WORKDIR /app/inaturalist
 

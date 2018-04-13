@@ -10,7 +10,10 @@ services:
   elastic:
     build: ./elastic
     ports:
-      - "8080:8080"
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
   api:
     build: ./api
     ports:

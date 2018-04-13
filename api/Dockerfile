@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 RUN apt-get update \
-	&& apt-get install -y git build-essential zlib1g zlib1g-dev libpq-dev wget curl \
+	&& apt-get install -y git build-essential zlib1g zlib1g-dev libpq-dev wget curl postgresql-client \
 	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -18,5 +18,8 @@ WORKDIR /app/iNaturalistAPI
 RUN npm install
 
 COPY config.js .
+COPY wait-for-database.sh .
 
-CMD [ "node", "app.js" ]
+RUN chmod 755 wait-for-database.sh
+
+CMD [ "./wait-for-database.sh", "node", "app.js" ]

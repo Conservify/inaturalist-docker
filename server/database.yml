@@ -1,0 +1,18 @@
+login: &login
+  host: postgres
+  encoding: utf8
+  adapter: postgis
+  username: in
+  password: in
+
+development:
+  <<: *login
+  database: inaturalist_development
+
+test:
+  <<: *login
+  database: inaturalist_test
+
+production:
+  <<: *login
+  database: inaturalist_production

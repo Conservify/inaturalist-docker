@@ -1,0 +1,27 @@
+version: '2'
+services:
+  server:
+    build: ./server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - elastic
+  elastic:
+    build: ./elastic
+    ports:
+      - "8080:8080"
+  api:
+    build: ./api
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - server
+  postgres:
+    image: mdillon/postgis:9.6-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=in
+      - POSTGRES_PASSWORD=in

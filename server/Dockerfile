@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 RUN apt-get update \
-	&& apt-get install -y git ruby ruby-dev build-essential zlib1g zlib1g-dev libpq-dev wget curl tzdata postgresql-client \
+	&& apt-get install -y git ruby ruby-dev build-essential zlib1g zlib1g-dev libpq-dev wget curl tzdata postgresql-client libgeos-dev libgeos++-dev libproj-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -29,8 +29,6 @@ RUN node_modules/.bin/gulp webpack
 
 COPY database.yml config
 COPY config.yml config
-
-WORKDIR /app/inaturalist
 
 COPY startup.sh .
 

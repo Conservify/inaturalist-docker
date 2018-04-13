@@ -28,3 +28,6 @@ services:
     environment:
       - POSTGRES_USER=in
       - POSTGRES_PASSWORD=in
+      - POSTGRES_DB=template_postgis
+    volumes:
+      - ./schema:/docker-entrypoint-initdb.d/:ro

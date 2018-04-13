@@ -4,6 +4,7 @@ login: &login
   adapter: postgis
   username: in
   password: in
+  template: template_postgis
 
 development:
   <<: *login

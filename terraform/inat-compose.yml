@@ -1,0 +1,21 @@
+version: '2'
+services:
+  elastic:
+    image: conservify/inat-elastic
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+  server:
+    image: conservify/inat-server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - elastic
+  api:
+    image: conservify/inat-api
+    ports:
+      - "4000:4000"
+    depends_on:
+      - server

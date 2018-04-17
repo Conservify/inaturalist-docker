@@ -1,2 +1,10 @@
 inaturalist
 iNaturalistAPI
+terraform.tfvars
+terraform.tfplan
+terraform.tfvars
+terraform.tfstate
+terraform.tfplan
+terraform.tfstate.backup
+.terraform
+graph.png

@@ -1,26 +1,5 @@
 version: '2'
 services:
-  server:
-    build: ./server
-    ports:
-      - "3000:3000"
-    depends_on:
-      - postgres
-      - elastic
-  elastic:
-    build: ./elastic
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    environment:
-      - discovery.type=single-node
-  api:
-    build: ./api
-    ports:
-      - "4000:4000"
-    depends_on:
-      - postgres
-      - server
   postgres:
     image: mdillon/postgis:9.6-alpine
     ports:
@@ -31,3 +10,27 @@ services:
       - POSTGRES_DB=template_postgis
     volumes:
       - ./schema:/docker-entrypoint-initdb.d/:ro
+  elastic:
+    build: ./elastic
+    image: conservify/inat-elastic
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+  server:
+    build: ./server
+    image: conservify/inat-server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - elastic
+  api:
+    build: ./api
+    image: conservify/inat-api
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - server

@@ -51,6 +51,12 @@ if [ $HAVE_SITE == 0 ]; then
     # rails r tools/import_us_counties.rb
 fi
 
+HAVE_APPLICATION=$(psql -qtAX -d $POSTGRES_DB -c "SELECT COUNT(*) FROM oauth_applications")
+if [ $HAVE_APPLICATION == 0 ]; then
+    rails r "OauthApplication.create!( id: 1, owner_id: 1, owner_type: 'User', name: 'FieldKit', redirect_uri: 'http://local.conservify.org:8000/callback', secret: 'e49f160128d4a5ecfd2a1e425caaea6e2cf597705ac1989734021537b83e2663', uid: 'e222436ff6ab6d514f2d8a64a02fa70b13ee32f3ecc238ad8d37f6880dc387ee', url: '' )"
+    psql -d $POSTGRES_DB -c "INSERT INTO oauth_access_tokens (id, resource_owner_id, application_id, token, expires_in, refresh_token, scopes, created_at) VALUES (1, 1, 1, 'd8621e6a0db495a1377fc4dc375024b6340ff413dc0595940d10f86a8cafa534', 86400 * 365, NULL, 'write', now())"
+fi
+
 # Any way to avoid this everytime?
 rake es:rebuild
 

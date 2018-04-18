@@ -28,6 +28,8 @@ services:
       - POSTGRES_MASTER_DB=inat
       - POSTGRES_DB=inaturalist_development
       - INAT_API_URL=http://127.0.0.1:4000/v1
+      - INAT_APP_HOST=127.0.0.1:3000
+      - INAT_APP_URL=http://127.0.0.1:3000
     depends_on:
       - postgres
       - elastic

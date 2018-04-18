@@ -32,6 +32,7 @@ storage:
           PGUSER=${db_username}
           PGPASSWORD=${db_password}
           INAT_API_URL=http://inat.fkdev.org:4000/v1
+          INAT_APP_HOST=inat.fkdev.org
           INAT_APP_URL=http://inat.fkdev.org
 
 locksmith:

@@ -6,16 +6,23 @@ services:
       - "9200:9200"
       - "9300:9300"
     environment:
+      - ES_JAVA_OPTS=-Xms128m -Xmx128m
       - discovery.type=single-node
   server:
     image: conservify/inat-server
     ports:
-      - "3000:3000"
+      - "80:3000"
     depends_on:
       - elastic
+    env_file:
+      - inat.env
   api:
     image: conservify/inat-api
     ports:
       - "4000:4000"
     depends_on:
       - server
+    env_file:
+      - inat.env
+    environment:
+      - POSTGRES_DB=inaturalist_development

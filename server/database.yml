@@ -1,9 +1,9 @@
 login: &login
-  host: postgres
+  host: <%= ENV['POSTGRES_ADDRESS'] %>
   encoding: utf8
   adapter: postgis
-  username: in
-  password: in
+  username: <%= ENV['POSTGRES_USERNAME'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
   template: template_postgis
 
 development:

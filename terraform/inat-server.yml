@@ -23,7 +23,14 @@ storage:
       mode:       0644
       contents:
         inline: |
+          POSTGRES_DB=${db_name}
+          POSTGRES_USERNAME=${db_username}
+          POSTGRES_PASSWORD=${db_password}
+          POSTGRES_ADDRESS=${db_address}
           POSTGRES_URL=${db_url}
+          PGHOST=${db_address}
+          PGUSER=${db_username}
+          PGPASSWORD=${db_password}
 
 locksmith:
   reboot_strategy: "reboot"

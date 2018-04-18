@@ -35,6 +35,7 @@ COPY database.yml config
 COPY config.yml config
 
 COPY startup.sh .
+COPY startup.sql .
 
 RUN chmod 755 startup.sh
 

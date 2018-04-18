@@ -23,6 +23,11 @@ services:
     image: conservify/inat-server
     ports:
       - "3000:3000"
+    environment:
+      - POSTGRES_ADDRESS=postgres
+      - POSTGRES_USERNAME=in
+      - POSTGRES_PASSWORD=in
+      - POSTGRES_DB=inaturalist_development
     depends_on:
       - postgres
       - elastic
@@ -31,6 +36,10 @@ services:
     image: conservify/inat-api
     ports:
       - "4000:4000"
+    environment:
+      - POSTGRES_ADDRESS=postgres
+      - POSTGRES_USERNAME=in
+      - POSTGRES_DB=inaturalist_development
     depends_on:
       - postgres
       - server

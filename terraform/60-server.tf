@@ -133,6 +133,15 @@ resource "aws_instance" "inat-server" {
       "sudo chown -R core. /etc/docker",
     ]
   }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024",
+      "sudo /sbin/mkswap /var/swap.1",
+      "sudo chmod 600 /var/swap.1",
+      "sudo /sbin/swapon /var/swap.1",
+      "echo '/var/swap.1   swap    swap    defaults        0   0' | sudo tee -a /etc/fstab"
+    ]
+  }
 
   provisioner "file" {
     content      = "${data.template_file.inat-server-compose.rendered}"
@@ -167,15 +176,6 @@ resource "aws_alb_target_group" "inat-server" {
   port     = 80
   protocol = "HTTP"
   vpc_id   = "${var.vpc_id}"
-
-  health_check {
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    timeout             = 3
-    port                = 80
-    path                = "/status"
-    interval            = 5
-  }
 }
 
 resource "aws_alb_target_group_attachment" "inat-server" {

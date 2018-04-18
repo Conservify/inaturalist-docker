@@ -1,6 +1,9 @@
 variable "access_key" {}
 variable "secret_key" {}
 
+variable "zone_id" {}
+variable "zone_name" {}
+
 variable "region" {
   default = "us-east-1"
 }

@@ -100,7 +100,7 @@ data "ct_config" "inat-server" {
 
 resource "aws_instance" "inat-server" {
   ami                         = "ami-a89d3ad2"
-  instance_type               = "t2.micro"
+  instance_type               = "t2.small"
   subnet_id                   = "${element(var.subnet_ids, 0)}"
   associate_public_ip_address = true
   vpc_security_group_ids      = ["${aws_security_group.inat-ssh.id}", "${aws_security_group.inat-server.id}"]
@@ -176,6 +176,15 @@ resource "aws_alb_target_group" "inat-server" {
   port     = 80
   protocol = "HTTP"
   vpc_id   = "${var.vpc_id}"
+
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    port                = 80
+    path                = "/assets/favicon.ico"
+    interval            = 5
+  }
 }
 
 resource "aws_alb_target_group_attachment" "inat-server" {
@@ -214,6 +223,14 @@ resource "aws_db_instance" "inat-database" {
   publicly_accessible    = true
   db_subnet_group_name   = "fk"
   vpc_security_group_ids = ["${aws_security_group.inat-database.id}"]
+}
+
+resource "aws_route53_record" "inat" {
+  zone_id = "${var.zone_id}"
+  name    = "inat.aws.${var.zone_name}"
+  type    = "A"
+  ttl     = "60"
+  records = ["${aws_instance.inat-server.public_ip}"]
 }
 
 output "db_address" {

@@ -24,6 +24,14 @@ resource "aws_security_group" "inat-server" {
   vpc_id      = "${var.vpc_id}"
 
   ingress {
+    from_port       = 4000
+    to_port         = 4000
+    protocol        = "tcp"
+    cidr_blocks     = "${var.whitelisted_cidrs}"
+    security_groups = ["${aws_security_group.inat-alb.id}"]
+  }
+
+  ingress {
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
@@ -43,6 +51,13 @@ resource "aws_security_group" "inat-alb" {
   name        = "inat-alb"
   description = "inat-alb"
   vpc_id      = "${var.vpc_id}"
+
+  ingress {
+    from_port   = 4000
+    to_port     = 4000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   ingress {
     from_port   = 80
@@ -166,13 +181,13 @@ resource "aws_alb_listener" "inat-server-80" {
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = "${aws_alb_target_group.inat-server.arn}"
+    target_group_arn = "${aws_alb_target_group.inat-server-80.arn}"
     type             = "forward"
   }
 }
 
-resource "aws_alb_target_group" "inat-server" {
-  name     = "inat-server"
+resource "aws_alb_target_group" "inat-server-80" {
+  name     = "inat-server-80"
   port     = 80
   protocol = "HTTP"
   vpc_id   = "${var.vpc_id}"
@@ -187,10 +202,43 @@ resource "aws_alb_target_group" "inat-server" {
   }
 }
 
-resource "aws_alb_target_group_attachment" "inat-server" {
-  target_group_arn = "${aws_alb_target_group.inat-server.arn}"
+resource "aws_alb_target_group_attachment" "inat-server-80" {
+  target_group_arn = "${aws_alb_target_group.inat-server-80.arn}"
   target_id        = "${aws_instance.inat-server.id}"
   port             = 80
+}
+
+resource "aws_alb_listener" "inat-server-4000" {
+  load_balancer_arn = "${aws_alb.inat-server.arn}"
+  port              = "4000"
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = "${aws_alb_target_group.inat-server-4000.arn}"
+    type             = "forward"
+  }
+}
+
+resource "aws_alb_target_group" "inat-server-4000" {
+  name     = "inat-server-4000"
+  port     = 4000
+  protocol = "HTTP"
+  vpc_id   = "${var.vpc_id}"
+
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    port                = 80
+    path                = "/assets/favicon.ico"
+    interval            = 5
+  }
+}
+
+resource "aws_alb_target_group_attachment" "inat-server-4000" {
+  target_group_arn = "${aws_alb_target_group.inat-server-4000.arn}"
+  target_id        = "${aws_instance.inat-server.id}"
+  port             = 4000
 }
 
 resource "aws_security_group" "inat-database" {

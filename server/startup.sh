@@ -54,4 +54,8 @@ fi
 # Any way to avoid this everytime?
 rake es:rebuild
 
+# Start delayed jobs.
+mkdir -p tmp/pids
+./script/delayed_job start
+
 rails s -b 0.0.0.0

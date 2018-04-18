@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 RUN apt-get update \
-	&& apt-get install -y git ruby ruby-dev build-essential zlib1g zlib1g-dev libpq-dev wget curl tzdata postgresql-client libgeos-dev libgeos++-dev libproj-dev locales \
+	&& apt-get install -y git ruby ruby-dev build-essential zlib1g zlib1g-dev libpq-dev wget curl tzdata postgresql-client libgeos-dev libgeos++-dev libproj-dev locales imagemagick libimage-exiftool-perl \
 	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

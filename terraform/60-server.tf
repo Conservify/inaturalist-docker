@@ -135,7 +135,7 @@ resource "aws_instance" "inat-server" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024",
+      "sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=2048",
       "sudo /sbin/mkswap /var/swap.1",
       "sudo chmod 600 /var/swap.1",
       "sudo /sbin/swapon /var/swap.1",
@@ -229,3 +229,10 @@ output "db_password" {
   sensitive = true
 }
 
+output "app_server_public_dns" {
+  value     = "${aws_instance.inat-server.public_dns}"
+}
+
+output "app_server_public_ip" {
+  value     = "${aws_instance.inat-server.public_ip}"
+}

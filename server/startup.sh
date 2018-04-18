@@ -33,7 +33,8 @@ fi
 
 HAVE_SITE=$(psql -qtAX -d $POSTGRES_DB -c "SELECT COUNT(*) FROM sites")
 if [ $HAVE_SITE == 0 ]; then
-    rails r "Site.create!( id: 1000, name: 'iNaturalist', url: 'http://127.0.0.1:3000' )"
+    rails r "Site.create!( id: 2000, name: 'iNaturalist', url: 'http://127.0.0.1:3000' )"
+    rails r "Site.create!( id: 1000, name: 'iNaturalist', url: 'http://inat.aws.fkdev.org' )"
     rails r "User.create!( login: 'jacobtest', password: 'asdfasdf', password_confirmation: 'asdfasdf', email: 'jacobtest@test.com', name: 'Jacob' )"
     rails r "User.create!( login: 'shahtest', password: 'asdfasdf', password_confirmation: 'asdfasdf', email: 'shahtest@test.com', name: 'Shah' )"
     rails r tools/import_us_states.rb

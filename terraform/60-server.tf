@@ -273,12 +273,24 @@ resource "aws_db_instance" "inat-database" {
   vpc_security_group_ids = ["${aws_security_group.inat-database.id}"]
 }
 
-resource "aws_route53_record" "inat" {
+resource "aws_route53_record" "inat-aws" {
   zone_id = "${var.zone_id}"
   name    = "inat.aws.${var.zone_name}"
   type    = "A"
   ttl     = "60"
   records = ["${aws_instance.inat-server.public_ip}"]
+}
+
+resource "aws_route53_record" "inat" {
+  zone_id = "${var.zone_id}"
+  name    = "inat.${var.zone_name}"
+  type    = "A"
+
+  alias {
+    name                   = "${aws_alb.inat-server.dns_name}"
+    zone_id                = "${aws_alb.inat-server.zone_id}"
+    evaluate_target_health = false
+  }
 }
 
 output "db_address" {

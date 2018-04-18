@@ -16,6 +16,8 @@ services:
       - elastic
     env_file:
       - inat.env
+    environment:
+      - POSTGRES_DB=inaturalist_development
   api:
     image: conservify/inat-api
     ports:

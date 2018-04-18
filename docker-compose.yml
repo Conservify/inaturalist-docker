@@ -7,9 +7,7 @@ services:
     environment:
       - POSTGRES_USER=in
       - POSTGRES_PASSWORD=in
-      - POSTGRES_DB=template_postgis
-    volumes:
-      - ./schema:/docker-entrypoint-initdb.d/:ro
+      - POSTGRES_DB=inat
   elastic:
     build: ./elastic
     image: conservify/inat-elastic
@@ -27,6 +25,7 @@ services:
       - POSTGRES_ADDRESS=postgres
       - POSTGRES_USERNAME=in
       - POSTGRES_PASSWORD=in
+      - POSTGRES_MASTER_DB=inat
       - POSTGRES_DB=inaturalist_development
     depends_on:
       - postgres
@@ -39,6 +38,7 @@ services:
     environment:
       - POSTGRES_ADDRESS=postgres
       - POSTGRES_USERNAME=in
+      - POSTGRES_PASSWORD=in
       - POSTGRES_DB=inaturalist_development
     depends_on:
       - postgres

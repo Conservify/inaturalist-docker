@@ -19,13 +19,13 @@ module.exports = {
     placeIndex: `${environment}_places`
   },
   database: {
-    user: "in",
-    host: "postgres",
+    user: process.env.POSTGRES_USERNAME,
+    host: process.env.POSTGRES_ADDRESS,
     port: 5432,
     geometry_field: "geom",
     srid: 4326,
     dbname: `inaturalist_${environment}`,
-    password: "in",
+    password: process.env.POSTGRES_PASSWORD,
     ssl: false
   },
   tileSize: 512,

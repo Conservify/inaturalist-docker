@@ -23,7 +23,7 @@ storage:
       mode:       0644
       contents:
         inline: |
-          POSTGRES_DB=${db_name}
+          POSTGRES_MASTER_DB=${db_name}
           POSTGRES_USERNAME=${db_username}
           POSTGRES_PASSWORD=${db_password}
           POSTGRES_ADDRESS=${db_address}

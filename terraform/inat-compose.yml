@@ -18,6 +18,8 @@ services:
       - inat.env
     environment:
       - POSTGRES_DB=inaturalist_development
+    volumes:
+      - /app/attachments:/app/inaturalist/public/attachments
   api:
     image: conservify/inat-api
     ports:

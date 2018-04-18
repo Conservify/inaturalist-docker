@@ -24,6 +24,7 @@ services:
       - "4000:4000"
     depends_on:
       - server
+      - elastic
     env_file:
       - inat.env
     environment:

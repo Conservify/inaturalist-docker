@@ -8,12 +8,12 @@ if ( process && process.env && process.env.NODE_ENV ) {
 module.exports = {
   environment: environment,
   // Host running the iNaturalist Rails app
-  apiURL: "http://server:3000",
+  apiURL: process.env.INAT_APP_URL,
   // Whether the Rails app supports SSL requests. For local dev assume it does not
   apiHostSSL: false,
   writeHostSSL: false,
   elasticsearch: {
-    host: "localhost:9200",
+    host: "elastic:9200",
     geoPointField: "location",
     searchIndex: `${environment}_observations`,
     placeIndex: `${environment}_places`

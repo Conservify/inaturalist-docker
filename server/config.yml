@@ -130,7 +130,7 @@ base: &base
 
     # An instance of https://github.com/inaturalist/iNaturalistAPI, the
     # same code running at CONFIG.tile_servers.elasticsearch
-    node_api_url: http://api:4000/v1
+    node_api_url: {INAT_API_URL}
 
 development:
     <<: *base

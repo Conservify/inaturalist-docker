@@ -31,6 +31,8 @@ if [ $HAVE_TABLES == 0 ]; then
     psql inaturalist_development -f db/structure.sql
 fi
 
+sed -i -e "s,{INAT_API_URL},$INAT_API_URL,g" config/config.yml
+
 HAVE_SITE=$(psql -qtAX -d $POSTGRES_DB -c "SELECT COUNT(*) FROM sites")
 if [ $HAVE_SITE == 0 ]; then
     rails r "Site.create!( id: 2000, name: 'iNaturalist', url: 'http://127.0.0.1:3000' )"

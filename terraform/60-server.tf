@@ -115,7 +115,7 @@ data "ct_config" "inat-server" {
 
 resource "aws_instance" "inat-server" {
   ami                         = "ami-a89d3ad2"
-  instance_type               = "t2.small"
+  instance_type               = "t2.medium"
   subnet_id                   = "${element(var.subnet_ids, 0)}"
   associate_public_ip_address = true
   vpc_security_group_ids      = ["${aws_security_group.inat-ssh.id}", "${aws_security_group.inat-server.id}"]

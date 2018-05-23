@@ -123,6 +123,7 @@ resource "aws_instance" "inat-server" {
   key_name                    = "cfy-dev-server"
   iam_instance_profile        = "${aws_iam_instance_profile.inat-server.id}"
   availability_zone           = "${element(var.azs, count.index)}"
+  monitoring                  = false
 
   connection {
     user = "core"
